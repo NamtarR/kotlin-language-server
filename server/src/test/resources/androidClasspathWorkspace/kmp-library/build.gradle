@@ -1,0 +1,12 @@
+plugins {
+    id 'org.jetbrains.kotlin.multiplatform'
+    id 'com.android.kotlin.multiplatform.library'
+}
+
+kotlin {
+    androidLibrary {
+        namespace = 'org.javacs.kt.fixture.kmp.library'
+        compileSdk = 36
+        minSdk = 23
+    }
+}
