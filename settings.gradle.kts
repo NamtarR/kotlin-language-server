@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("config-plugins")
     repositories {
         gradlePluginPortal()
         maven("https://cache-redirector.jetbrains.com/kotlin.bintray.com/kotlin-plugin")

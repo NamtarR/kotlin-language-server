@@ -1,12 +1,11 @@
 plugins {
-    kotlin("jvm")
     id("maven-publish")
     id("application")
     alias(libs.plugins.com.github.jk1.tcdeps)
     alias(libs.plugins.com.jaredsburrows.license)
+    id("kotlin-language-server.kotlin-conventions")
     id("kotlin-language-server.publishing-conventions")
     id("kotlin-language-server.distribution-conventions")
-    id("kotlin-language-server.kotlin-conventions")
 }
 
 val debugPort = 8000
@@ -36,15 +35,16 @@ dependencies {
     annotationProcessor(platform(project(":platform")))
 
     implementation(project(":shared"))
+    implementation(libs.org.jetbrains.kotlin.stdlib)
 
     implementation(libs.org.eclipse.lsp4j.lsp4j)
     implementation(libs.org.eclipse.lsp4j.jsonrpc)
 
-    implementation(kotlin("compiler"))
-    implementation(kotlin("scripting-compiler"))
-    implementation(kotlin("scripting-jvm-host-unshaded"))
-    implementation(kotlin("sam-with-receiver-compiler-plugin"))
-    implementation(kotlin("reflect"))
+    implementation(libs.org.jetbrains.kotlin.compiler)
+    implementation(libs.org.jetbrains.kotlin.ktscompiler)
+    implementation(libs.org.jetbrains.kotlin.kts.jvm.host.unshaded)
+    implementation(libs.org.jetbrains.kotlin.sam.with.receiver.compiler.plugin)
+    implementation(libs.org.jetbrains.kotlin.reflect)
     implementation(libs.com.jetbrains.intellij.java.decompiler)
     implementation(libs.org.jetbrains.exposed.core)
     implementation(libs.org.jetbrains.exposed.dao)
@@ -60,8 +60,8 @@ dependencies {
 
     // See
     // https://github.com/JetBrains/kotlin/blob/65b0a5f90328f4b9addd3a10c6f24f3037482276/libraries/examples/scripting/jvm-embeddable-host/build.gradle.kts#L8
-    compileOnly(kotlin("scripting-jvm-host"))
-    testCompileOnly(kotlin("scripting-jvm-host"))
+    compileOnly(libs.org.jetbrains.kotlin.kotlin.scripting.jvm.host)
+    testCompileOnly(libs.org.jetbrains.kotlin.kotlin.scripting.jvm.host)
 
     annotationProcessor(libs.org.openjdk.jmh.generator.annprocess)
 }
@@ -104,7 +104,17 @@ tasks.register<Sync>("installDebugDist") {
     finalizedBy("debugStartScripts")
 }
 
-tasks.withType<Test>() {
+val prepareTestGradleUserHome = tasks.register<Copy>("prepareTestGradleUserHome") {
+    val kotlinVersion = libs.versions.kotlinVersion.get()
+    from(configurations.runtimeClasspath)
+    include("kotlin-stdlib-$kotlinVersion.jar")
+    into(layout.buildDirectory.dir(
+        "test-gradle-user-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/$kotlinVersion/kls-tests"
+    ))
+}
+
+tasks.withType<Test>().configureEach {
+    dependsOn(prepareTestGradleUserHome)
     testLogging {
         events("failed")
         exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL

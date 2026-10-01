@@ -143,7 +143,7 @@
     <ID>LongParameterList:GoToDefinition.kt$( file: CompiledFile, cursor: Int, classContentProvider: ClassContentProvider, tempDir: TemporaryDirectory, config: ExternalSourcesConfiguration, cp: CompilerClassPath )</ID>
     <ID>LongParameterList:LanguageServerTestFixture.kt$LanguageServerTestFixture$(relativePath: String, startLine: Int, startColumn: Int, endLine: Int, endColumn: Int, diagnostics: List&lt;Diagnostic&gt;, only: List&lt;String&gt;)</ID>
     <ID>LongParameterList:SourcePath.kt$SourcePath.SourceFile$( val uri: URI, var content: String, val path: Path? = uri.filePath, var parsed: KtFile? = null, var compiledFile: KtFile? = null, var compiledContext: BindingContext? = null, var module: ModuleDescriptor? = null, val language: Language? = null, val isTemporary: Boolean = false, // A temporary source file will not be returned by .all() var lastSavedFile: KtFile? = null, )</ID>
-    <ID>LoopWithTooManyJumpStatements:StringUtils.kt$for (i in 0 until maxOffset) { when { (iCandidate + i) &lt; candidateLength -&gt; { if (candidate[iCandidate + i] == pattern[iPattern]) { iCandidate += i localCommonSubstring++ break@searchWindow } } (iPattern + i) &lt; patternLength -&gt; { if (candidate[iCandidate] == pattern[iPattern + i]) { iPattern += i localCommonSubstring++ break@searchWindow } } else -&gt; break@searchWindow } }</ID>
+    <ID>LoopWithTooManyJumpStatements:StringUtils.kt$for</ID>
     <ID>MagicNumber:BackupClassPathResolver.kt$3</ID>
     <ID>MagicNumber:ClassContentProvider.kt$ClassContentProvider.&lt;no name provided&gt;$5</ID>
     <ID>MagicNumber:Compiler.kt$3</ID>
@@ -437,7 +437,7 @@
     <ID>UnusedPrivateMember:FunctionScope.kt$FunctionScope.Companion$private val aCompanionVal = 1</ID>
     <ID>UnusedPrivateMember:FunctionScript.kts$val first = 1</ID>
     <ID>UnusedPrivateMember:FunctionScript.kts$val second = 2</ID>
-    <ID>UnusedPrivateMember:GradleClassPathResolver.kt$private val gradleErrorWherePattern by lazy { "\\*\\s+Where:[\r\n]+(\\S\\.*)".toRegex() }</ID>
+    <ID>UnusedPrivateProperty:GradleClassPathResolver.kt$private val gradleErrorWherePattern by lazy { "\\*\\s+Where:[\r\n]+(\\S\\.*)".toRegex() }</ID>
     <ID>UnusedPrivateMember:InstanceMember.kt$SomeClass$private fun privateInstanceFoo()</ID>
     <ID>UnusedPrivateMember:InstanceMember.kt$private fun SomeClass.extensionFoo()</ID>
     <ID>UnusedPrivateMember:InstanceMember.kt$private fun completeIdentifierInsideCall()</ID>
@@ -448,10 +448,10 @@
     <ID>UnusedPrivateMember:InstanceMember.kt$private fun foo()</ID>
     <ID>UnusedPrivateMember:InstanceMembersJava.kt$private fun findJavaInstanceMembers(p: Path)</ID>
     <ID>UnusedPrivateMember:JavaElementConverter.kt$JavaElementConverter$private fun PsiCallExpression.translateTypeArguments(): String</ID>
-    <ID>UnusedPrivateMember:KotlinTextDocumentService.kt$KotlinTextDocumentService$private val TextDocumentIdentifier.isKotlinScript: Boolean get() = uri.endsWith(".kts")</ID>
+    <ID>UnusedPrivateProperty:KotlinTextDocumentService.kt$KotlinTextDocumentService$private val TextDocumentIdentifier.isKotlinScript: Boolean get() = uri.endsWith(".kts")</ID>
     <ID>UnusedPrivateMember:LintTest.kt$LintTest$i</ID>
     <ID>UnusedPrivateMember:Literals.kt$private fun foo()</ID>
-    <ID>UnusedPrivateMember:Logger.kt$Logger$private val newline = System.lineSeparator()</ID>
+    <ID>UnusedPrivateProperty:Logger.kt$Logger$private val newline = System.lineSeparator()</ID>
     <ID>UnusedPrivateMember:ObjectReference.kt$private fun bar()</ID>
     <ID>UnusedPrivateMember:ObjectReference.kt$private fun dang()</ID>
     <ID>UnusedPrivateMember:ObjectReference.kt$private fun foo()</ID>
@@ -482,7 +482,7 @@
     <ID>UnusedPrivateMember:SignatureHelp.kt$Target$second: Int</ID>
     <ID>UnusedPrivateMember:SignatureHelp.kt$Target$second: String</ID>
     <ID>UnusedPrivateMember:SimpleScriptTest.kt$SimpleScriptTest$val resultValue = (result as ResultWithDiagnostics.Success).value.returnValue as ResultValue.Value</ID>
-    <ID>UnusedPrivateMember:SourceFiles.kt$i</ID>
+    <ID>UnusedPrivateProperty:SourceFiles.kt$i</ID>
     <ID>UnusedPrivateMember:Statics.kt$private fun completeStatics()</ID>
     <ID>UnusedPrivateMember:TrailingLambda.kt$a: Int</ID>
     <ID>UnusedPrivateMember:TrailingLambda.kt$b: (Int) -&gt; Unit</ID>

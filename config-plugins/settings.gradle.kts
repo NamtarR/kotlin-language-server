@@ -6,4 +6,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "build-conventions"
+rootProject.name = "config-plugins"
