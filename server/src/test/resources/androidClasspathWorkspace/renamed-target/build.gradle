@@ -1,0 +1,29 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace = 'org.javacs.kt.fixture.renamed'
+    compileSdk = 36
+    defaultConfig {
+        minSdk = 23
+    }
+}
+
+// AGP's new KMP plugin fixes its target name to "android". Model a differently
+// named target using real Android dependencies/attributes to test dispatch.
+extensions.create('kotlin', FixtureKotlinExtension)
+gradle.projectsEvaluated {
+    def androidConfiguration = project(':legacy-consumer').configurations.debugCompileClasspath
+    configurations.create('mobileCompileClasspath') {
+        dependencies.addAll(androidConfiguration.allDependencies)
+        androidConfiguration.attributes.keySet().each { key ->
+            attributes.attribute(key, androidConfiguration.attributes.getAttribute(key))
+        }
+    }
+}
+
+class FixtureKotlinExtension {
+    List sourceSets = []
+    List targets = [[name: 'mobile', platformType: 'androidJvm']]
+}

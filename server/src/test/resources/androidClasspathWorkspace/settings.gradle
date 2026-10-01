@@ -1,0 +1,25 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    plugins {
+        id 'com.android.library' version providers.gradleProperty('agpVersion').getOrElse('9.2.1')
+        id 'com.android.kotlin.multiplatform.library' version providers.gradleProperty('agpVersion').getOrElse('9.2.1')
+        id 'org.jetbrains.kotlin.multiplatform' version '2.3.21'
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = 'android-classpath-test'
+include ':legacy-library', ':legacy-consumer', ':jvm'
+if (providers.gradleProperty('agpVersion').getOrElse('9.2.1').startsWith('9.')) {
+    include ':kmp-library', ':kmp-consumer', ':renamed-target'
+}

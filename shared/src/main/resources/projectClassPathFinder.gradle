@@ -1,3 +1,13 @@
+import org.gradle.api.attributes.Attribute
+
+def androidCompileClasspath = { configuration ->
+    configuration.incoming.artifactView {
+        attributes {
+            attribute(Attribute.of("artifactType", String), "android-classes-jar")
+        }
+    }.files
+}
+
 allprojects { project ->
     task kotlinLSPProjectDeps { task ->
         doLast {
@@ -46,7 +56,7 @@ allprojects { project ->
 
                     System.out.println "kotlin-lsp-gradle $userVariantClasses"
 
-                    variant.getCompileClasspath().each {
+                    androidCompileClasspath(variant.getCompileConfiguration()).each {
                         System.out.println "kotlin-lsp-gradle $it"
                     }
                 }
@@ -66,9 +76,12 @@ allprojects { project ->
                 def kotlinSourceSets = kotlinExtension.sourceSets
 
                 // Print the list of all dependencies jar files.
-                kotlinExtension.targets.names.each {
-                    def classpath = configurations["${it}CompileClasspath"]
-                    classpath.files.each {
+                kotlinExtension.targets.each { target ->
+                    def classpath = configurations["${target.name}CompileClasspath"]
+                    def files = target.platformType.toString() == "androidJvm"
+                        ? androidCompileClasspath(classpath)
+                        : classpath.files
+                    files.each {
                         System.out.println "kotlin-lsp-gradle $it"
                     }
                 }
