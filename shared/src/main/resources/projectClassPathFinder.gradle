@@ -9,13 +9,36 @@ def androidCompileClasspath = { configuration ->
 }
 
 allprojects { project ->
+    def modernAndroidComponents = null
+    def androidVariantConfigurations = []
+    ["com.android.application", "com.android.library", "com.android.dynamic-feature", "com.android.test"].each { pluginId ->
+        project.plugins.withId(pluginId) {
+            // The new Android DSL no longer exposes the legacy boot/variant APIs.
+            if (!project.android.metaClass.respondsTo(project.android, "getBootClasspath")) {
+                modernAndroidComponents = project.extensions.getByName("androidComponents")
+                modernAndroidComponents.onVariants(modernAndroidComponents.selector().all(), { variant ->
+                    androidVariantConfigurations.add(variant.compileConfiguration)
+                } as org.gradle.api.Action)
+            }
+        }
+    }
+
     task kotlinLSPProjectDeps { task ->
         doLast {
             System.out.println ""
             System.out.println "gradle-version $gradleVersion"
             System.out.println "kotlin-lsp-project ${project.name}"
 
-            if (project.hasProperty('android')) {
+            if (modernAndroidComponents != null) {
+                modernAndroidComponents.sdkComponents.bootClasspath.get().each {
+                    System.out.println "kotlin-lsp-gradle ${it.asFile}"
+                }
+                androidVariantConfigurations.each { configuration ->
+                    androidCompileClasspath(configuration).each {
+                        System.out.println "kotlin-lsp-gradle $it"
+                    }
+                }
+            } else if (project.hasProperty('android')) {
                 project.android.getBootClasspath().each {
                     System.out.println "kotlin-lsp-gradle $it"
                 }
@@ -76,7 +99,8 @@ allprojects { project ->
                 def kotlinSourceSets = kotlinExtension.sourceSets
 
                 // Print the list of all dependencies jar files.
-                kotlinExtension.targets.each { target ->
+                // Native/JS targets do not expose JVM JAR compile classpaths.
+                kotlinExtension.targets.findAll { it.platformType.toString() in ["androidJvm", "jvm"] }.each { target ->
                     def classpath = configurations["${target.name}CompileClasspath"]
                     def files = target.platformType.toString() == "androidJvm"
                         ? androidCompileClasspath(classpath)
