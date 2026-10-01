@@ -1,5 +1,6 @@
 [versions]
 kotlinVersion = "2.1.0"
+kotlinGradlePluginVersion = "2.4.20"
 lsp4jVersion = "0.21.2"
 exposedVersion = "0.37.3"
 jmhVersion = "1.37"
@@ -44,10 +45,11 @@ org-openjdk-jmh-core = { module = "org.openjdk.jmh:jmh-core", version.ref = "jmh
 
 org-xerial-sqlite-jdbc = { module = "org.xerial:sqlite-jdbc", version = "3.48.0.0" }
 
-# buildSrc
-org-jetbrains-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin",version.ref = "kotlinVersion" }
+# Build tooling is versioned independently of the embedded compiler and runtime libraries.
+org-jetbrains-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlinGradlePluginVersion" }
 
 [plugins]
+org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlinGradlePluginVersion" }
 com-github-jk1-tcdeps = { id = "com.github.jk1.tcdeps", version = "1.6.2" }
-com-jaredsburrows-license = { id = "com.jaredsburrows.license", version = "0.9.8" }
-io-gitlab-arturbosch-detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.22.0" }
+com-jaredsburrows-license = { id = "com.jaredsburrows.license", version = "0.9.91" }
+io-gitlab-arturbosch-detekt = { id = "io.gitlab.arturbosch.detekt", version = "1.23.8" }

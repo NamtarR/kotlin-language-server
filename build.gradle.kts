@@ -2,7 +2,7 @@ import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 
 plugins {
-    kotlin("jvm")
+    alias(libs.plugins.org.jetbrains.kotlin.jvm)
     `maven-publish`
     alias(libs.plugins.io.gitlab.arturbosch.detekt)
 }
@@ -16,9 +16,9 @@ detekt {
     allRules = false // activate all available (even unstable) rules.
     buildUponDefaultConfig = true // preconfigure defaults
     parallel = true
-    config = files("$rootDir/detekt.yml")
+    config.setFrom(files("$rootDir/detekt.yml"))
     baseline = file("$rootDir/detekt_baseline.xml")
-    source = files(projectDir)
+    source.setFrom(files(projectDir))
 }
 
 // Registers a baseline for Detekt.
@@ -45,7 +45,7 @@ tasks.register<DetektCreateBaselineTask>("createDetektBaseline") {
 }
 
 tasks.withType<Detekt>().configureEach {
-    jvmTarget = JavaVersion.VERSION_11.toString()
+    jvmTarget = providers.gradleProperty("javaVersion").get()
     exclude("**/build/**")
     reports {
         html.required.set(true)

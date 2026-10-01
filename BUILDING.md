@@ -2,8 +2,21 @@
 Describes how to build and run the language server and the editor extensions.
 
 ## Setup
-* Java 11+ should be installed and located under `JAVA_HOME` or `PATH`.
+* JDK 21 should be installed and located under `JAVA_HOME` or `PATH`. The build and convention plugins use a Java 21 toolchain.
+* Run the installed language server on Java 21; the distribution does not bundle a JDK. Java 25 runtime support is deferred to the embedded compiler upgrade because Kotlin 2.1.0's bundled IntelliJ Java-version parser rejects Java 25.
 * Note that you might need to use `gradlew` instead of `./gradlew` for the commands on Windows.
+
+### Build tooling and embedded compiler
+
+The wrapper uses Gradle 9.7.0. Local convention plugins live in the included `config-plugins` build.
+
+`gradle/libs.versions.toml` versions the Kotlin Gradle plugin separately from the embedded Kotlin compiler. The build uses KGP 2.4.20, while the server's compiler, scripting libraries, reflection, and stdlib remain on 2.1.0 pending the compiler migration. Server/shared sources retain Kotlin 2.1 language/API settings so their metadata stays compatible with the embedded compiler.
+
+### Tests
+
+The full test suite also needs Maven on `PATH` for workspace classpath discovery. Gradle fixtures use their own wrappers; the KLS wrapper version does not set the Gradle version of user projects.
+
+Tests use a separate Gradle user home under each module's `build/test-gradle-user-home` so fixture classpath discovery does not pick up the newer Kotlin tooling used to build KLS. The first test run downloads the fixture wrappers and dependencies.
 
 ## Language Server
 
